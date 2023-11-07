@@ -17,7 +17,7 @@ public class Comanda {
 
     public void listarConsumo() {
         for (String item : consumo) {
-            System.out.println(consumo);
+            System.out.println(item);
         }
     }
 

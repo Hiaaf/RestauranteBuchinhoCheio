@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Restaurante {
@@ -18,5 +19,12 @@ public class Restaurante {
     }
     public String getEndereco() {
         return endereco;
+    }
+
+    public Restaurante(int numMesas) {
+        mesas = new ArrayList<Mesa>(numMesas);
+        for (int i = 0; i < numMesas; i++) {
+            mesas.add(new Mesa(i));
+        }
     }
 }

@@ -1,9 +1,12 @@
 import java.util.Date;
+import java.util.List;
 
 public class Mesa {
     private int numeroMesa;
-    private Date data;
-    private boolean reserva;
+    private int numeroMaxClientes;
+    private Date data = null;
+    private boolean reserva = false;
+    private List<Cliente> clientes;
 
     public void setNumeroMesa(int numeroMesa) {
         this.numeroMesa = numeroMesa;
@@ -24,5 +27,9 @@ public class Mesa {
         if (reserva) return false;
         reserva = true;
         return true;
+    }
+
+    public Mesa(int numeroMesa) {
+        this.numeroMesa = numeroMesa;
     }
 }
