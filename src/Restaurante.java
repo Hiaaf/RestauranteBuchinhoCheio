@@ -6,6 +6,7 @@ public class Restaurante {
     private String endereco;
 
     private List<Mesa> mesas;
+    private List<Item> itensDisponiveis;
 
     public void setNome(String nome) {
         this.nome = nome;

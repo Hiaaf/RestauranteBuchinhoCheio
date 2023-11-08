@@ -1,10 +1,10 @@
 import java.util.List;
 
 public class Comanda {
-    private List<String> consumo;
+    private List<Item> consumo;
     private double valor;
 
-    public List<String> getConsumo() {
+    public List<Item> getConsumo() {
         return consumo;
     }
 
@@ -16,7 +16,7 @@ public class Comanda {
     }
 
     public void listarConsumo() {
-        for (String item : consumo) {
+        for (var item : consumo) {
             System.out.println(item);
         }
     }
