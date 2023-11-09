@@ -22,7 +22,10 @@ public class Restaurante {
         return endereco;
     }
 
-    public Restaurante(int numMesas) {
+    public Restaurante(String nome, String endereco, int numMesas) {
+        this.nome = nome;
+        this.endereco = endereco;
+
         mesas = new ArrayList<Mesa>(numMesas);
         for (int i = 0; i < numMesas; i++) {
             mesas.add(new Mesa(i));
