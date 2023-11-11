@@ -1,35 +1,40 @@
 import java.util.Date;
-import java.util.List;
 
 public class Mesa {
-    private int numeroMesa;
-    private int numeroMaxClientes;
-    private Date data = null;
-    private boolean reserva = false;
-    private List<Cliente> clientes;
+    private int numMesa;
+    private Date data;
+    private int numCadeiras;
+    private boolean reservada;
 
-    public void setNumeroMesa(int numeroMesa) {
-        this.numeroMesa = numeroMesa;
-    }
-    public int getNumeroMesa() {
-        return numeroMesa;
-    }
-
-    public void setData(Date data) {
-        this.data = data;
+    public int getNumMesa() {
+        return numMesa;
     }
     public Date getData() {
         return data;
     }
-
-    // Retorna false se não foi possível reservar. Se for, reserva e retorna true
-    public boolean reservar() {
-        if (reserva) return false;
-        reserva = true;
-        return true;
+    public int getNumCadeiras() {
+        return numCadeiras;
+    }
+    public void setNumCadeiras(int numCadeiras) {
+        this.numCadeiras = numCadeiras;
     }
 
-    public Mesa(int numeroMesa) {
-        this.numeroMesa = numeroMesa;
+    public boolean estaReservada() {
+        return reservada;
+    }
+
+    public Mesa(int numMesa, int numCadeiras) {
+        this.numMesa = numMesa;
+        this.data = null;
+        this.reservada = false;
+        this.numCadeiras = numCadeiras;
+    }
+
+    public void reserva() {
+        reservada = true;
+    }
+
+    public void libera() {
+        reservada = false;
     }
 }
