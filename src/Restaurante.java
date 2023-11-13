@@ -3,9 +3,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Restaurante {
-    private String nome;
-    private String endereco;
-    private int minMaxNaMesa;
+    private final String nome;
+    private final String endereco;
 
     public String getNome() {
         return nome;
@@ -14,18 +13,20 @@ public class Restaurante {
         return endereco;
     }
 
-    private List<Mesa> mesas;
+    private final List<Mesa> mesas;
 
+    public List<Mesa> getMesas() {
+        return mesas;
+    }
     public int getNumMesas() {
         return mesas.size();
     }
 
-    public Restaurante(String nome, String endereco, int numMesas, int minMaxNaMesa) {
+    public Restaurante(String nome, String endereco, int numMesas) {
         var scan = new Scanner(System.in);
 
         this.nome = nome;
         this.endereco = endereco;
-        this.minMaxNaMesa = minMaxNaMesa;
 
         mesas = new ArrayList<>();
         for (int i = 0; i < numMesas; i++) {
@@ -40,11 +41,10 @@ public class Restaurante {
         Mesa mesaDisponivel = null;
 
         for (Mesa mesa : mesas) {
-            if (mesa.estaReservada()) continue;
             if (mesa.getNumCadeiras() < numPessoas) continue;
-            if (mesaDisponivel != null && mesaDisponivel.getNumCadeiras() < mesa.getNumCadeiras()) continue;
+            if (mesa.dataReservada(data)) continue;
 
-            if (mesaDisponivel != null && mesaDisponivel.getDatas() == data) continue;
+            if (mesaDisponivel != null && mesaDisponivel.getNumCadeiras() < mesa.getNumCadeiras()) continue;
 
             mesaDisponivel = mesa;
             if (mesaDisponivel.getNumCadeiras() == numPessoas) break;
@@ -55,5 +55,16 @@ public class Restaurante {
         }
 
         return mesaDisponivel;
+    }
+
+    // Cancela a reserva da mesa.
+    public boolean cancelarMesa(int numMesa, Date data) {
+        var mesa = mesas.get(numMesa);
+
+        if (!mesa.dataReservada(data)) return false;
+
+        mesa.cancela(data);
+
+        return true;
     }
 }
