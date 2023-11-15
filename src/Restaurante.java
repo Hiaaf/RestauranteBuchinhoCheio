@@ -37,7 +37,7 @@ public class Restaurante {
 
     // Reserva uma mesa para um numero especifico de pessoas, tentando achar a com o menor numero de cadeiras possivel.
     // Retorna a mesa reservada, null se não tiver mesas disponiveis.
-    public Mesa reservarMesa(int numPessoas, Date data) {
+    public Mesa reservarMesa(int numPessoas, Date data, Cliente cliente) {
         Mesa mesaDisponivel = null;
 
         for (Mesa mesa : mesas) {
@@ -51,19 +51,26 @@ public class Restaurante {
         }
 
         if (mesaDisponivel != null) {
-            mesaDisponivel.reserva(data);
+            mesaDisponivel.reserva(data, cliente);
         }
 
         return mesaDisponivel;
     }
 
     // Cancela a reserva da mesa.
-    public boolean cancelarMesa(int numMesa, Date data) {
+    public boolean cancelarMesa(int numMesa, Date data, String emailCliente) {
         var mesa = mesas.get(numMesa);
 
         if (!mesa.dataReservada(data)) return false;
 
-        mesa.cancela(data);
+        /* Eu ia checar cliente por cliente para achar o email, mas como o index da data tem que bater com o index do
+         * cliente que fez a reserva naquela data, só faço essa assombração aqui embaixo para pegar o cliente e checar
+         * se o email está correto! */
+        Cliente cliente = mesa.getCliente(mesa.getDatas().indexOf(data));
+
+        if (!(cliente.getEmail().equals(emailCliente))) return false;
+
+        mesa.cancela(data, cliente);
 
         return true;
     }

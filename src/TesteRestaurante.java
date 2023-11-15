@@ -2,7 +2,7 @@ import java.util.List;
 import java.util.Scanner;
 
 /*
-* Como isso é um teste, coloquei muitas funções que num mundo real não deveriama aparecer para o usuário
+* Como isso é um teste, coloquei muitas funções que num mundo real não deveriam aparecer para o usuário
 * */
 
 public class TesteRestaurante {
@@ -22,6 +22,7 @@ public class TesteRestaurante {
                     3. Cancelar uma reserva"""
             );
             opc = scan.nextInt();
+            scan.nextLine(); // limpa o buffer??? não sei???? tava pulando alguns .nextLine() eu to ficando maluco
 
             switch (opc) {
                 case 0:
@@ -53,6 +54,9 @@ final class OperacoesUsuario {
             return;
         }
 
+        System.out.println("Informe seu nome e seu email para entrarmos em contato! (Separe-os com uma nova linha)");
+        var cliente = new Cliente(scan.nextLine(), scan.nextLine());
+
         System.out.println("Mesa para quantas pessoas?");
         int numPessoas = scan.nextInt();
         if (numPessoas <= 0) {
@@ -61,15 +65,25 @@ final class OperacoesUsuario {
         }
 
         System.out.println("Para quando será a reserva? (formato 'dia mes')");
-        var mesaReservada = res.reservarMesa(
-                numPessoas, new Date(scan.nextInt(), scan.nextInt())
-        );
+        var data = new Date(scan.nextInt(), scan.nextInt());
+        scan.nextLine();
+
+        var mesaReservada = res.reservarMesa(numPessoas, data, cliente);
 
         if (mesaReservada == null) {
             System.out.printf("Perdão, não há mesas disponíveis para %d pessoas neste horário.%n", numPessoas);
             return;
         }
-        System.out.printf("ID da mesa reservada: %d%n", mesaReservada.getNumMesa());
+
+        System.out.printf("""
+                Mesa reservada com sucesso, %s!
+                ID da mesa reservada: %d
+                Email do reservante: %s
+                Data da reserva: %s
+                
+                Caso precise cancelar a reserva, guarde o email usado, a data da reserva, e o ID de sua mesa!
+                Grato!%n""", cliente.getNome(), mesaReservada.getNumMesa(), cliente.getEmail(), data.getData()
+        );
     }
 
     public static void listarReservas(Restaurante res) {
@@ -97,20 +111,31 @@ final class OperacoesUsuario {
             return;
         }
 
-        System.out.println("Qual o número da mesa que deseja cancelar a reserva?");
+        System.out.println("Qual email você usou para fazer a reserva?");
+        String email = scan.nextLine();
+
+        System.out.println("Qual o ID de sua mesa?");
         int numMesa = scan.nextInt();
+        scan.nextLine();
         if (numMesa < 0 || numMesa > (res.getNumMesas() - 1)) {
             System.out.println("Não temos uma mesa com este número!");
             return;
         }
 
         System.out.println("Para quando foi a reserva? (formato 'dia mes')");
-        boolean cancela = res.cancelarMesa(numMesa, new Date(scan.nextInt(), scan.nextInt()));
+        var data = new Date(scan.nextInt(), scan.nextInt());
+        scan.nextLine();
+
+        boolean cancela = res.cancelarMesa(numMesa, data, email);
 
         if (!cancela) {
-            System.out.println("Não há reservas para essa mesa nesta data.");
+            System.out.println("Não foi possível encontrar uma reserva com essas informações!");
             return;
         }
-        System.out.println("Reserva cancelada.");
+        System.out.println("""
+                Reserva cancelada com sucesso!
+
+                Volte algum outro dia!"""
+        );
     }
 }
