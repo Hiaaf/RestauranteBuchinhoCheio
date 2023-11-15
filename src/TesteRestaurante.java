@@ -100,7 +100,8 @@ final class OperacoesUsuario {
 
             System.out.printf("Mesa %d está reservada no(s) dia(s):%n", mesa.getNumMesa());
             for (Date data : datas) {
-                System.out.printf("\t%s%n", data.getData());
+                Cliente cliente = mesa.getCliente(mesa.getDatas().indexOf(data));
+                System.out.printf("\t%s, por %s (email: %s)%n", data.getData(), cliente.getNome(), cliente.getEmail());
             }
         }
     }

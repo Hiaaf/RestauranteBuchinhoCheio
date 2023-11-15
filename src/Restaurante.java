@@ -47,7 +47,6 @@ public class Restaurante {
             if (mesaDisponivel != null && mesaDisponivel.getNumCadeiras() < mesa.getNumCadeiras()) continue;
 
             mesaDisponivel = mesa;
-            if (mesaDisponivel.getNumCadeiras() == numPessoas) break;
         }
 
         if (mesaDisponivel != null) {
