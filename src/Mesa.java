@@ -1,33 +1,39 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Mesa {
-    private final int numMesa;
-    private final List<Date> datas;
+    private final int numMesa; // ID da mesa
+    // Mapa com todas as reservas da mesa, com suas datas e clientes
+    private final Map<Date, Cliente> reservas;
     private int numCadeiras;
-    // Lista de todos os clientes, onde clientes[i] se refere ao cliente da data datas[i]
-    private final List<Cliente> clientes;
 
     /*
-    * Já que fiz com a lista de datas, checo se a data foi reservada.
+    * Já que fiz com a lista de reservas, checo se a data foi reservada.
     * A mesa então pode ser reservada por várias pessoas, mas em datas diferentes.
     * */
 //    private boolean reservada;
+
+
+    public Map<Date, Cliente> getReservas() {
+        return reservas;
+    }
 
     public int getNumMesa() {
         return numMesa;
     }
 
     public List<Date> getDatas() {
-        return datas;
+        return new ArrayList<>(reservas.keySet());
     }
     public Date getData(int index) {
-        return datas.get(index);
+        return getDatas().get(index);
     }
 
     // Retorna true se a mesa ja foi reservada naquela data. false no contrario
     public boolean dataReservada(Date dataP) {
-        for (Date data : datas) {
+        for (Date data : getDatas()) {
             if (data.equals(dataP)) return true;
         }
 
@@ -42,27 +48,24 @@ public class Mesa {
     }
 
     public List<Cliente> getClientes() {
-        return clientes;
+        return new ArrayList<>(reservas.values());
     }
     public Cliente getCliente(int index) {
-        return clientes.get(index);
+        return getClientes().get(index);
     }
 
 
     public Mesa(int numMesa, int numCadeiras) {
         this.numMesa = numMesa;
-        this.datas = new ArrayList<>();
         this.numCadeiras = numCadeiras;
-        this.clientes = new ArrayList<>();
+        this.reservas = new HashMap<>();
     }
 
     public void reserva(Date data, Cliente cliente) {
-        datas.add(data);
-        clientes.add(cliente);
+        reservas.put(data, cliente);
     }
 
     public void cancela(Date data, Cliente cliente) {
-        datas.remove(data);
-        clientes.remove(cliente);
+        reservas.remove(data, cliente);
     }
 }

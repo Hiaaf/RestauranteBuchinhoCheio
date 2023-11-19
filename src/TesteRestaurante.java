@@ -82,7 +82,7 @@ final class OperacoesUsuario {
                 Data da reserva: %s
                 
                 Caso precise cancelar a reserva, guarde o email usado, a data da reserva, e o ID de sua mesa!
-                Grato!%n""", cliente.getNome(), mesaReservada.getNumMesa(), cliente.getEmail(), data.getData()
+                Grato!%n""", cliente.nome(), mesaReservada.getNumMesa(), cliente.email(), data.getData()
         );
     }
 
@@ -100,8 +100,9 @@ final class OperacoesUsuario {
 
             System.out.printf("Mesa %d está reservada no(s) dia(s):%n", mesa.getNumMesa());
             for (Date data : datas) {
+                // TODO: deixa mais bunitin issaq pelo amor
                 Cliente cliente = mesa.getCliente(mesa.getDatas().indexOf(data));
-                System.out.printf("\t%s, por %s (email: %s)%n", data.getData(), cliente.getNome(), cliente.getEmail());
+                System.out.printf("\t%s, por %s (email: %s)%n", data.getData(), cliente.nome(), cliente.email());
             }
         }
     }

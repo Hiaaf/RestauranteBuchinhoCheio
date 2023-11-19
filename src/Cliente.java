@@ -1,16 +1,4 @@
-public class Cliente {
-    private final String nome;
-    private final String email;
+// https://medium.com/experiencecode/usando-records-em-java-9afecf7495b3
 
-    public String getNome() {
-        return nome;
-    }
-    public String getEmail() {
-        return email;
-    }
-
-    public Cliente(String nome, String email) {
-        this.nome = nome;
-        this.email = email;
-    }
+public record Cliente(String nome, String email) {
 }

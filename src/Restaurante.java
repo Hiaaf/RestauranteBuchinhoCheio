@@ -65,9 +65,11 @@ public class Restaurante {
         /* Eu ia checar cliente por cliente para achar o email, mas como o index da data tem que bater com o index do
          * cliente que fez a reserva naquela data, só faço essa assombração aqui embaixo para pegar o cliente e checar
          * se o email está correto! */
+        // TODO: deixa mais bunitin issaq pelo amor
         Cliente cliente = mesa.getCliente(mesa.getDatas().indexOf(data));
 
-        if (!(cliente.getEmail().equals(emailCliente))) return false;
+
+        if (!(cliente.email().equals(emailCliente))) return false;
 
         mesa.cancela(data, cliente);
 
