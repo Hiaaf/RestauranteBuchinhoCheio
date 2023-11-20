@@ -1,12 +1,11 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 public class Mesa {
     private final int numMesa; // ID da mesa
     // Mapa com todas as reservas da mesa, com suas datas e clientes
-    private final Map<Date, Cliente> reservas;
+    private final List<Reserva> reservas;
     private int numCadeiras;
 
     /*
@@ -16,7 +15,7 @@ public class Mesa {
 //    private boolean reservada;
 
 
-    public Map<Date, Cliente> getReservas() {
+    public List<Reserva> getReservas() {
         return reservas;
     }
 
@@ -25,7 +24,11 @@ public class Mesa {
     }
 
     public List<Date> getDatas() {
-        return new ArrayList<>(reservas.keySet());
+        List<Date> datas = new ArrayList<>();
+        for (var reserva : reservas) {
+            datas.add(reserva.data());
+        }
+        return datas;
     }
     public Date getData(int index) {
         return getDatas().get(index);
@@ -48,40 +51,44 @@ public class Mesa {
     }
 
     public List<Cliente> getClientes() {
-        return new ArrayList<>(reservas.values());
+        List<Cliente> clientes = new ArrayList<>();
+        for (var reserva : reservas) {
+            clientes.add(reserva.cliente());
+        }
+        return clientes;
     }
     public Cliente getCliente(int index) {
         return getClientes().get(index);
     }
     public Cliente getCliente(Date data) {
-        return reservas.getOrDefault(data, null);
+        for (var reserva : reservas) {
+            if (reserva.data().equals(data)) {
+                return reserva.cliente();
+            }
+        }
+        return null;
     }
 
 
     public Mesa(int numMesa, int numCadeiras) {
         this.numMesa = numMesa;
         this.numCadeiras = numCadeiras;
-        this.reservas = new HashMap<>();
+        this.reservas = new ArrayList<>();
     }
 
-    public void reserva(Date data, Cliente cliente) {
-        reservas.put(data, cliente);
+    public void reserva(Date data, Cliente cliente, int numPessoas) {
+        reservas.add(new Reserva(data, cliente, numPessoas));
     }
 
     public void cancela(Date data) {
-        for (var d : getDatas()) {
-            if (d.equals(data)) reservas.remove(d);
-            return;
-        }
+        reservas.removeIf(reserva -> reserva.data().equals(data));
     }
 
     /* Checa se cliente tem reserva na data mencionada
     * retorna true se sim, false se não */
     public boolean checaReserva(Date data, String emailCliente) {
-//        if (!reservas.containsKey(data)) return false;
-
-        for (var reserva : reservas.entrySet()) {
-            if (reserva.getKey().equals(data) && reserva.getValue().email().equals(emailCliente))
+        for (var reserva : reservas) {
+            if (reserva.data().equals(data) && reserva.cliente().email().equals(emailCliente))
                 return true;
         }
         return false;

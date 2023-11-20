@@ -50,7 +50,7 @@ public class Restaurante {
         }
 
         if (mesaDisponivel != null) {
-            mesaDisponivel.reserva(data, cliente);
+            mesaDisponivel.reserva(data, cliente, numPessoas);
         }
 
         return mesaDisponivel;

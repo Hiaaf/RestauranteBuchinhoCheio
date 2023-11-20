@@ -6,7 +6,7 @@ public class TesteRestaurante {
     public static void main(String[] args) {
         var scan = new Scanner(System.in);
 
-        var buchChei = new Restaurante("Buchinho Cheio 1", "Av. 1", 4);
+        var buchChei = new Restaurante("Buchinho Cheio 1", "Av. 1", 2);
 
         int opc;
         do {
@@ -91,16 +91,19 @@ final class OperacoesUsuario {
 
         List<Mesa> mesas = res.getMesas();
 
+        boolean algumaReserva = false;
+
         for (Mesa mesa : mesas) {
-            List<Date> datas = mesa.getDatas();
-            if (datas.isEmpty()) continue;
+            if (mesa.getReservas().isEmpty()) continue;
+            algumaReserva = true;
 
             System.out.printf("Mesa %d está reservada no(s) dia(s):%n", mesa.getNumMesa());
-            for (Date data : datas) {
-                Cliente cliente = mesa.getCliente(data);
-                System.out.printf("\t%s, por %s (email: %s)%n", data, cliente.nome(), cliente.email());
+            for (var reserva : mesa.getReservas()) {
+                System.out.printf("\t%s, por %s, para %d pessoas%n", reserva.data(), reserva.cliente(), reserva.numPessoas());
             }
         }
+
+        if (!algumaReserva) System.out.println("Nenhuma reserva feita!");
     }
 
     public static void cancelarReserva(Restaurante res) {
