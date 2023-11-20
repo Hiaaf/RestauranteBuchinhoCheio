@@ -53,6 +53,9 @@ public class Mesa {
     public Cliente getCliente(int index) {
         return getClientes().get(index);
     }
+    public Cliente getCliente(Date data) {
+        return reservas.getOrDefault(data, null);
+    }
 
 
     public Mesa(int numMesa, int numCadeiras) {
@@ -67,5 +70,14 @@ public class Mesa {
 
     public void cancela(Date data, Cliente cliente) {
         reservas.remove(data, cliente);
+    }
+
+    /* Checa se cliente tem reserva na data mencionada
+    * retorna true se sim, false se não */
+    public boolean checaReserva(Date data, String emailCliente) {
+        System.out.println(1);
+        if (!reservas.containsKey(data)) return false;
+        System.out.println(2);
+        return (reservas.get(data).email().equals(emailCliente));
     }
 }

@@ -57,21 +57,14 @@ public class Restaurante {
     }
 
     // Cancela a reserva da mesa.
+    // Retorna true se conseguir, false se não
     public boolean cancelarMesa(int numMesa, Date data, String emailCliente) {
         var mesa = mesas.get(numMesa);
 
-        if (!mesa.dataReservada(data)) return false;
-
-        /* Eu ia checar cliente por cliente para achar o email, mas como o index da data tem que bater com o index do
-         * cliente que fez a reserva naquela data, só faço essa assombração aqui embaixo para pegar o cliente e checar
-         * se o email está correto! */
-        // TODO: deixa mais bunitin issaq pelo amor
-        Cliente cliente = mesa.getCliente(mesa.getDatas().indexOf(data));
-
-
-        if (!(cliente.email().equals(emailCliente))) return false;
-
-        mesa.cancela(data, cliente);
+        if (!mesa.checaReserva(data, emailCliente)) return false; // TODO: n funciona >:(
+        System.out.println("mesa.checaReserva(data, emailCliente) = " + mesa.checaReserva(data, emailCliente));
+        
+        mesa.cancela(data, mesa.getCliente(data));
 
         return true;
     }

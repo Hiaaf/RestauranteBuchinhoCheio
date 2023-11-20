@@ -1,9 +1,6 @@
 import java.util.List;
 import java.util.Scanner;
 
-/*
-* Como isso é um teste, coloquei muitas funções que num mundo real não deveriam aparecer para o usuário
-* */
 
 public class TesteRestaurante {
     public static void main(String[] args) {
@@ -82,7 +79,7 @@ final class OperacoesUsuario {
                 Data da reserva: %s
                 
                 Caso precise cancelar a reserva, guarde o email usado, a data da reserva, e o ID de sua mesa!
-                Grato!%n""", cliente.nome(), mesaReservada.getNumMesa(), cliente.email(), data.getData()
+                Grato!%n""", cliente.nome(), mesaReservada.getNumMesa(), cliente.email(), data
         );
     }
 
@@ -100,9 +97,8 @@ final class OperacoesUsuario {
 
             System.out.printf("Mesa %d está reservada no(s) dia(s):%n", mesa.getNumMesa());
             for (Date data : datas) {
-                // TODO: deixa mais bunitin issaq pelo amor
-                Cliente cliente = mesa.getCliente(mesa.getDatas().indexOf(data));
-                System.out.printf("\t%s, por %s (email: %s)%n", data.getData(), cliente.nome(), cliente.email());
+                Cliente cliente = mesa.getCliente(data);
+                System.out.printf("\t%s, por %s (email: %s)%n", data, cliente.nome(), cliente.email());
             }
         }
     }

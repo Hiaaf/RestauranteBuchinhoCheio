@@ -10,7 +10,8 @@ public class Date {
         this.mes = mes;
     }
 
-    public String getData() {
+    @Override
+    public String toString() {
         return String.format("%d/%d", dia, mes);
     }
 
