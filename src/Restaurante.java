@@ -61,10 +61,9 @@ public class Restaurante {
     public boolean cancelarMesa(int numMesa, Date data, String emailCliente) {
         var mesa = mesas.get(numMesa);
 
-        if (!mesa.checaReserva(data, emailCliente)) return false; // TODO: n funciona >:(
-        System.out.println("mesa.checaReserva(data, emailCliente) = " + mesa.checaReserva(data, emailCliente));
-        
-        mesa.cancela(data, mesa.getCliente(data));
+        if (!mesa.checaReserva(data, emailCliente)) return false;
+
+        mesa.cancela(data);
 
         return true;
     }

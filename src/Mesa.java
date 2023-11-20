@@ -68,16 +68,22 @@ public class Mesa {
         reservas.put(data, cliente);
     }
 
-    public void cancela(Date data, Cliente cliente) {
-        reservas.remove(data, cliente);
+    public void cancela(Date data) {
+        for (var d : getDatas()) {
+            if (d.equals(data)) reservas.remove(d);
+            return;
+        }
     }
 
     /* Checa se cliente tem reserva na data mencionada
     * retorna true se sim, false se não */
     public boolean checaReserva(Date data, String emailCliente) {
-        System.out.println(1);
-        if (!reservas.containsKey(data)) return false;
-        System.out.println(2);
-        return (reservas.get(data).email().equals(emailCliente));
+//        if (!reservas.containsKey(data)) return false;
+
+        for (var reserva : reservas.entrySet()) {
+            if (reserva.getKey().equals(data) && reserva.getValue().email().equals(emailCliente))
+                return true;
+        }
+        return false;
     }
 }
