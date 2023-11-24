@@ -1,15 +1,6 @@
 // Não gostei da classe Date do java, ent fiz a minha meia boca :)
 
-public class Date {
-    private final int dia;
-    private final int mes;
-
-    public Date(int dia, int mes) {
-        // Assume-se que o usuário vai sempre colocar tempos válidos.
-        this.dia = dia;
-        this.mes = mes;
-    }
-
+public record Date(int dia, int mes) {
     @Override
     public String toString() {
         return String.format("%d/%d", dia, mes);

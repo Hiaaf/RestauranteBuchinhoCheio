@@ -1,18 +1,16 @@
 import java.util.List;
+import java.util.Map;
 
 public class Comanda {
-    private List<Item> consumo;
+    private Map<Integer, Item> consumo;
     private double valor;
 
-    public List<Item> getConsumo() {
-        return consumo;
-    }
     public double getValor() {
         return valor;
     }
 
     public void listarConsumo() {
-        for (var item : consumo) {
+        for (Item item : consumo.values()) {
             System.out.println(item);
         }
     }
