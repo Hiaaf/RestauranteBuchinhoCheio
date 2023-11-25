@@ -26,6 +26,15 @@ public class Mesa {
         return reservas;
     }
 
+    public Reserva getReserva(Date data) {
+        for (var reserva : reservas) {
+            if (reserva.data().equals(data))
+                return reserva;
+        }
+
+        return null;
+    }
+
     public List<Date> getDatas() {
         List<Date> datas = new ArrayList<>();
         for (var reserva : reservas) {
@@ -45,7 +54,7 @@ public class Mesa {
 
     // Adiciona uma nova reserva
     public void reserva(Date data, Cliente cliente, int numPessoas) {
-        reservas.add(new Reserva(data, cliente, numPessoas));
+        reservas.add(new Reserva(data, cliente, new Comanda(), numPessoas));
     }
 
     // Remove uma reserva

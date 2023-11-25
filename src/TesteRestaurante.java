@@ -16,7 +16,8 @@ public class TesteRestaurante {
                     0. Cancela
                     1. Fazer reserva
                     2. Ver mesas reservadas e suas datas
-                    3. Cancelar uma reserva"""
+                    3. Cancelar uma reserva
+                    4. Atender uma mesa"""
             );
             opc = scan.nextInt();
             scan.nextLine(); // limpa o buffer??? não sei???? tava pulando alguns .nextLine() eu to ficando maluco
@@ -33,6 +34,9 @@ public class TesteRestaurante {
                     break;
                 case 3:
                     OperacoesUsuario.cancelarReserva(buchChei);
+                    break;
+                case 4:
+                    OperacoesUsuario.atenderMesa(buchChei);
                     break;
                 default:
                     System.out.println("Operação invalida! Tente novamente.");
@@ -138,5 +142,86 @@ final class OperacoesUsuario {
 
                 Volte algum outro dia!"""
         );
+    }
+
+    public static void atenderMesa(Restaurante res) {
+        if (res == null) {
+            System.out.println("Parametro null");
+            return;
+        }
+
+        // Como fiz a mesa poder ter varias reservas mas em dias diferentes, pergunta que dia é hoje primeiro :)
+        System.out.println("Que dia é hoje? (dia mes)");
+        Date hoje = new Date(scan.nextInt(), scan.nextInt());
+        scan.nextLine();
+
+        System.out.println("Que mesa você quer atender?");
+        Mesa mesa = res.getMesa(scan.nextInt());
+        Reserva reserva = mesa.getReserva(hoje);
+
+        if (reserva == null) {
+            System.out.println("Não há ninguém nessa mesa hoje!");
+            return;
+        }
+
+        Comanda comanda = reserva.comanda();
+
+        int opc;
+        do {
+            System.out.println("""
+                    Escolha o que fazer:
+                    0. Cancela
+                    1. Checar consumo
+                    2. Checar total
+                    3. Fazer pedido
+                    4. Fechar conta (Imprime informações relevantes e remove a reserva!)"""
+            );
+            opc = scan.nextInt();
+            scan.nextLine();
+
+            switch (opc) {
+                case 0:
+                    break;
+                case 1:
+                    comanda.listarConsumo();
+                    break;
+                case 2:
+                    System.out.printf("R$%.2f%n", comanda.getValor());
+                    break;
+                case 3:
+                    System.out.println("Informe o ID do item:");
+                    res.imprimeCardapio();
+                    int id = scan.nextInt();
+                    scan.nextLine();
+                    comanda.adicionarConsumo(id, res.getItem(id));
+                    break;
+                case 4:
+                    comanda.listarConsumo();
+                    System.out.printf("""
+                            Mesa: %d
+                            SubTotal: R$%.2f
+                            10%%: R$%.2f
+                            Total: R$%.2f
+                            Dividido pelas pessoas da mesa: R$%.2f
+                            """,
+                            mesa.getNumMesa(),
+                            comanda.getValor(), comanda.calcular10Porcento(), (comanda.getValor() + comanda.calcular10Porcento()),
+                            comanda.dividirConta(reserva.numPessoas())
+                    );
+                    System.out.println("Fechar a conta? (0 não, 1 sim)");
+
+                    if (scan.nextInt() == 1) {
+                        System.out.println("Fechado!");
+                        mesa.cancela(hoje);
+                        opc = 0; // Não da para atender a mesa mais! Volta pro menu anterior.
+                    }
+                    scan.nextLine();
+
+                    break;
+                default:
+                    System.out.println("Operação invalida! Tente novamente.");
+                    break;
+            }
+        } while (opc != 0);
     }
 }

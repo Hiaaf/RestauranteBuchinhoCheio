@@ -42,6 +42,10 @@ public class Restaurante {
         return mesas;
     }
 
+    public Mesa getMesa(int index) {
+        return mesas.get(index);
+    }
+
     public int getNumMesas() {
         return mesas.size();
     }
@@ -79,5 +83,16 @@ public class Restaurante {
         mesa.cancela(data);
 
         return true;
+    }
+
+    public void imprimeCardapio() {
+        System.out.println("Cardápio (ID: nome - valor):");
+        for (var entry : cardapio.entrySet()) {
+            System.out.printf("\t%d: %s%n", entry.getKey(), entry.getValue());
+        }
+    }
+
+    public Item getItem(int id) {
+        return cardapio.get(id);
     }
 }
